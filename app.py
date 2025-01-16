@@ -93,12 +93,12 @@ mysql = MySQL(app)
 
 
 # Function to render the login page
-@app.route('/shopaffordable.netlify.app/login', methods=['GET'])
+@app.route('/login', methods=['GET'])
 def show_login_page():
     return render_template('index_login.html')  # Render the login form
 
 # Function to handle login form submission and redirect to dashboard if password is correct
-@app.route('/shopaffordable.netlify.app/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def handle_login():
     if request.method == 'POST':
         email = request.form['email']
@@ -361,7 +361,7 @@ def get_product_link_api():
     seller = data['seller']
     product_link = get_product_link(product_name, price, seller)
     return jsonify({'product_link': product_link})
-@app.route('/shopaffordable.netlify.app/search')
+@app.route('/search')
 def search():
     query = request.args.get('query')  # Get the query from the search form
     print(f"Search query received: {query}")  # Debugging output
