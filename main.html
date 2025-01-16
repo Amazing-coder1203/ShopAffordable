@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        ShopAffordable
+    </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #232f3e;
+            color: white;
+            padding: 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        .header .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+        }
+
+        .header .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+            display: flex;
+            flex-direction: row;
+            /* Add this to align input and button horizontally */
+            gap: 10px;
+            /* Space between the input and button */
+        }
+
+        .header .search-bar input {
+            width: 100%;
+            width: 800px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            flex: 1;
+            /* Ensure the input takes up available space */
+        }
+
+        .header .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            /* Add your preferred color */
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .header .search-bar button:hover {
+            background-color: #0056b3;
+            /* Slightly darker color for hover */
+        }
+
+        .header .login {
+            font-size: 18px;
+            padding-right: 30px;
+        }
+
+        .header .login a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Category Bar Styling */
+        .category-bar {
+            position: fixed;
+            top: 65px;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #f5f5f5;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+
+        .category-bar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .category-bar li {
+            margin: 0 15px;
+        }
+
+        .category-bar a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            padding: 4px;
+        }
+
+        .category-bar a:hover {
+            border: #232f3e;
+            border-style: solid;
+
+        }
+
+        .main-content {
+            padding: 20px;
+            padding-top: 140px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .text-gray-700 {
+            color: #4a5568;
+        }
+
+        .feature-item {
+            background-color: white;
+            border-radius: 4px;
+            height: 350px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            margin-bottom: 16px;
+        }
+
+        .feature-item img {
+            width: 40%;
+            object-fit: contain;
+        }
+
+        .feature-item .content {
+            padding: 16px;
+            width: 60%;
+        }
+
+        .feature-item .content h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .feature-item .content p {
+            color: #4a5568;
+        }
+
+        .contact-form {
+            background-color: white;
+            padding: 24px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .contact-form .form-group label {
+            display: block;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .contact-form .form-group input,
+        .contact-form .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+        }
+
+        .contact-form button {
+            background-color: #232f3e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <a id="logo-link" href="http://127.0.0.1:5000/ShopAffordable.com">ShopAffordable</a>
+        </div>
+        <div>
+            <form action="/ShopAffordable.com/search" method="get" class="search-bar">
+                <input type="text" name="query" placeholder="Enter product name" required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <!-- </div> -->
+        <div class="login">
+            <!-- <a href="{{ url_for('show_login_page') }}">
+                Login
+            </a> -->
+            {% if 'username' in session %}
+            <a href="{{ url_for('dashboard') }}">
+                Hello, {{ session['username'] }}
+            </a>
+            {% else %}
+            <a href="{{ url_for('show_login_page') }}">Login</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="category-bar">
+        <ul>
+            <li><a href="{{ url_for('category', category_name='realme') }}">Electronics</a></li>
+            <li><a href="{{ url_for('category', category_name='fashion') }}">Fashion</a></li>
+            <li><a href="{{ url_for('category', category_name='home-appliances') }}">Home Appliances</a></li>
+            <li><a href="{{ url_for('category', category_name='books') }}">Books</a></li>
+            <!-- Add more categories as needed -->
+        </ul>
+    </div>
+
+    <main class="main-content">
+        <section class="mb-8">
+            <h2 class="section-title">
+                About Us
+            </h2>
+            <p class="text-gray-700">
+                Welcome to ShopAffordable, your one-stop destination for finding the best products from various online
+                stores like Amazon and Flipkart. Our mission is to make online shopping easier and more efficient by
+                bringing all the best deals to one place.
+            </p>
+        </section>
+        <section class="mb-8">
+            <h2 class="section-title">
+                Features
+            </h2>
+            <div class="feature-item">
+                <img src="static/images/budget.svg" />
+                <div class="content">
+                    <h3>
+                        Compare Prices
+                    </h3>
+                    <p>
+                        Easily compare prices from different online stores to find the best deals.
+                    </p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <img src="static/images/sell.svg" />
+                <div class="content">
+                    <h3>
+                        Sell
+                    </h3>
+                    <p>
+                        List your products and reach a wider audience by selling through our platform.
+                    </p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <img src="static/images/analytics.svg" />
+                <div class="content">
+                    <h3>
+                        Business Analytics
+                    </h3>
+                    <p>
+                        Gain insights into your business performance with our advanced analytics tools.
+                    </p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <img src="static/images/support.svg" />
+                <div class="content">
+                    <h3>
+                        24/7 Customer Support
+                    </h3>
+                    <p>
+                        Our customer support team is available 24/7 to assist you with any queries.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2 class="section-title">
+                Contact Us
+            </h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">
+                        Name
+                    </label>
+                    <input id="name" type="text" />
+                </div>
+                <div class="form-group">
+                    <label for="email">
+                        Email
+                    </label>
+                    <input id="email" type="email" />
+                </div>
+                <div class="form-group">
+                    <label for="message">
+                        Message
+                    </label>
+                    <textarea id="message"></textarea>
+                </div>
+                <button type="submit">
+                    Send
+                </button>
+            </form>
+        </section>
+    </main>
+</body>
+<script>
+    // Check if the URL generated by Flask is valid
+    try {
+        var link = document.getElementById('logo-link');
+        fetch(link.href)
+            .then(response => {
+                if (response.status !== 200) {
+                    throw new Error('Route not found');
+                }
+            })
+            .catch(() => {
+                // If Flask route is not found, fall back to the static main.html
+                link.href = 'main.html';
+            });
+    } catch (error) {
+        // In case of any error, fallback to main.html
+        document.getElementById('logo-link').href = 'main.html';
+    }
+</script>
+
+</html>

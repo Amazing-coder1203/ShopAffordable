@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopAffordable Login and Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
+
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: black;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #f90;
+            box-shadow: 0 0 5px rgba(255, 153, 0, 0.5);
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .btn {
+            width: 100%;
+            background-color: #f90;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #e68a00;
+        }
+
+        .switch {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .switch a {
+            color: #0066c0;
+            text-decoration: none;
+        }
+
+        .switch a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="authContainer">
+        <div class="logo">
+            <a href="http://127.0.0.1:5000/ShopAffordable.com">ShopAffordable</a>
+        </div>
+        <div id="loginForm">
+            <h2>Login</h2>
+            <form method="POST" action="{{ url_for('handle_login') }}">
+                
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <!-- <div class="form-group">
+                <label for="loginIdentifier">Email or mobile phone number</label>
+                <input type="text" id="loginIdentifier" placeholder="Enter your email or phone number">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+                <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
+            </div>
+            <button class="btn" onclick="login()">Login</button> -->
+            <div class="switch">
+                New to Shopfordable? <a href="#" onclick="toggleForm('signup')">Create your Shopfordable account</a>
+            </div>
+        </div>
+
+        <div id="signupForm" style="display: none;">
+            <!-- <h2>Sign Up</h2>
+            <div class="form-group">
+                <label for="newName">Your name</label>
+                <input type="text" id="newName" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="newPhone">Mobile phone number</label>
+                <input type="text" id="newPhone" placeholder="Enter your phone number">
+                <div class="error" id="phoneError"></div>
+            </div>
+            <div class="form-group">
+                <label for="newEmail">Email</label>
+                <input type="email" id="newEmail" placeholder="Enter your email">
+                <div class="error" id="emailError"></div>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Password</label>
+                <input type="password" id="newPassword" placeholder="At least 6 characters">
+                <span class="toggle-password" onclick="togglePassword('newPassword')">👁️</span>
+                <div class="error" id="passwordError"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Re-enter Password</label>
+                <input type="password" id="confirmPassword" placeholder="Re-enter your password">
+                <span class="toggle-password" onclick="togglePassword('confirmPassword')">👁️</span>
+                <div class="error" id="confirmPasswordError"></div>
+            </div>
+            <button class="btn" onclick="signup()">Create your Shopfordable account</button>
+             -->
+            <form method="POST" action="/register">
+                <h2>Register</h2>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="phone_number" placeholder="Phone Number" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+            <div class="switch">
+                Already have an account? <a href="#" onclick="toggleForm('login')">Sign in</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function toggleForm(form) {
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+
+        if (form === 'signup') {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+        } else {
+            signupForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        }
+    }
+
+    function validateEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+    function validatePhone(phone) {
+        const regex = /^\d{10}$/;
+        return regex.test(phone);
+    }
+
+    function validatePassword(password) {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/;
+        return regex.test(password);
+    }
+
+    function togglePassword(id) {
+        const input = document.getElementById(id);
+        if (input.type === 'password') {
+            input.type = 'text';
+        } else {
+            input.type = 'password';
+        }
+    }
+
+    function signup() {
+        const name = document.getElementById('newName').value;
+        const phone = document.getElementById('newPhone').value;
+        const email = document.getElementById('newEmail').value;
+        const password = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        let isValid = true;
+
+        if (!validatePhone(phone)) {
+            document.getElementById('phoneError').innerText = 'Invalid phone number. Must be 10 digits.';
+            isValid = false;
+        } else {
+            document.getElementById('phoneError').innerText = '';
+        }
+
+        if (!validateEmail(email)) {
+            document.getElementById('emailError').innerText = 'Invalid email format.';
+            isValid = false;
+        } else {
+            document.getElementById('emailError').innerText = '';
+        }
+
+        if (!validatePassword(password)) {
+            document.getElementById('passwordError').innerText = 'Password must be at least 6 characters long and include uppercase, lowercase, numbers, and special characters.';
+            isValid = false;
+        } else {
+            document.getElementById('passwordError').innerText = '';
+        }
+
+        if (password !== confirmPassword) {
+            document.getElementById('confirmPasswordError').innerText = 'Passwords do not match.';
+            isValid = false;
+        } else {
+            document.getElementById('confirmPasswordError').innerText = '';
+        }
+
+        if (isValid) {
+            alert('Signup successful! Redirecting to login page...');
+            toggleForm('login');
+        }
+    }
+
+    function login() {
+        const identifier = document.getElementById('loginIdentifier').value;
+        const password = document.getElementById('password').value;
+
+        if (identifier && password) {
+            alert(`Logging in with: ${identifier}`);
+        } else {
+            alert('Please enter both an email/phone number and password to login.');
+        }
+    }
+</script>
+
+</html>

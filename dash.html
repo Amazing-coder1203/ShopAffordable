@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopAffordable Buyer Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7fafc;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d3748;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #718096;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2d3748;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-icons a {
+            color: #718096;
+            font-size: 1.25rem;
+            transition: color 0.3s;
+        }
+
+        .header-icons a:hover {
+            color: #2d3748;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .card.recent-orders {
+            /* height: 500px; */
+            overflow-y: auto;
+        }
+
+        .card.recent-orders::-webkit-scrollbar {
+            width: 6px;
+            /* Reduced width */
+            background-color: #f7fafc;
+            /* Matched background color */
+        }
+
+        .card.recent-orders::-webkit-scrollbar-thumb {
+            background-color: #718096;
+            /* Changed thumb color */
+            border-radius: 10px;
+            /* Added border radius */
+        }
+
+        .card.recent-orders::-webkit-scrollbar-thumb:hover {
+            background-color: #373a42;
+            /* Changed hover color */
+        }
+
+        .card.recent-orders::-webkit-scrollbar-track {
+            background-color: #f7fafc;
+            /* Matched background color */
+            border-radius: 10px;
+            /* Added border radius */
+        }
+
+        .summary {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .tiles a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            background-color: #edf2f7;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            color: #2d3748;
+        }
+
+        .tiles a:hover {
+            background-color: #e2e8f0;
+        }
+
+        .tiles i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            background-color: #f7fafc;
+            text-align: center;
+            /* padding: 1rem 0; */
+            color: #718096;
+        }
+    </style>
+</head>
+
+<body class="font-roboto bg-gray-100">
+    <div class="main-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <a class="logo" href="{{ url_for('main') }}">ShopAffordable</a>
+                <nav class="nav-links">
+                    <a href="{{ url_for('dashboard', show_profile='false') }}">Home</a>
+                    <a href="#">Orders</a>
+                    <a href="#">Add Shop</a>
+                    <a href="#">Cart</a>
+                    <a href="#"> <a href="{{ url_for('dashboard', show_profile='true') }}">Profile</a>
+                    
+                    
+                    <a href="/logout">Logout</a>
+                </nav>
+                <div class="header-icons">
+                    <a>Welcome, {{ username }}</a>
+                    <a href="#"><i class="fas fa-bell"></i></a>
+                    <a href="#"><i class="fas fa-user-circle"></i></a>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content -->
+        <main class="main-content">
+
+           <!-- ... (rest of the template remains the same) -->
+
+<!-- Main Content -->
+<main class="main-content">
+    {% if 'show_profile' in session %}
+        <h1>Profile Information</h1>
+        <div>
+            <p>Username: {{ session['username'] }}</p>
+            <p>Phone Number: {{ session['phone_number'] }}</p>
+            <p>Email Address: {{ session['email'] }}</p>
+        </div>
+        <form action="{{ url_for('edit_profile') }}" method="post">
+            <h2>Edit Profile</h2>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="{{ session['username'] }}">
+            </div>
+            <div>
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" value="{{ session['email'] }}">
+            </div>
+            <div>
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" id="phone_number" name="phone_number" value="{{ session['phone_number'] }}">
+            </div>
+            <button type="submit">Save Changes</button>
+        </form>
+    {% else %}
+        <!-- ... (rest of the dashboard content remains the same) -->
+        <div class="grid-container">
+            <!-- Orders Summary -->
+            <div class="card">
+                <h2>Orders Summary</h2>
+                <div class="summary">
+                    <div class="summary-item">
+                        <span>Total Orders</span>
+                        <span>150</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Pending Orders</span>
+                        <span>20</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Completed Orders</span>
+                        <span>120</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Cancelled Orders</span>
+                        <span>10</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Orders -->
+            <div class="card recent-orders">
+                <h2>Recent Orders</h2>
+                <div class="order-list">
+                    <div class="order-item">
+                        <div>
+                            <h3>Order #12345</h3>
+                            <p>Placed on: 2023-10-01</p>
+                        </div>
+                        <span>₹500</span>
+                    </div>
+                    <div class="order-item">
+                        <div>
+                            <h3>Order #12346</h3>
+                            <p>Placed on: 2023-10-02</p>
+                        </div>
+                        <span>₹1500</span>
+                    </div>
+                    <div class="order-item">
+                        <div>
+                            <h3>Order #12347</h3>
+                            <p>Placed on: 2023-10-03</p>
+                        </div>
+                        <span>₹2500</span>
+                    </div>
+                    <div class="order-item">
+                        <div>
+                            <h3>Order #12348</h3>
+                            <p>Placed on: 2023-10-04</p>
+                        </div>
+                        <span>₹3500</span>
+                    </div>
+                    <div class="order-item">
+                        <div>
+                            <h3>Order #12349</h3>
+                            <p>Placed on: 2023-10-05</p>
+                        </div>
+                        <span>₹4500</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation Tiles -->
+            <div class="card nav-tiles">
+                <h2>Quick Navigation</h2>
+                <div class="tiles">
+                    <a href="#">
+                        <i class="fas fa-user-circle"></i>
+                        <h3>Your Profile</h3>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-box"></i>
+                        <h3>Your Orders</h3>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-cog"></i>
+                        <h3>Settings</h3>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-store"></i>
+                        <h3>Add Shop</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</main>
+        </main>
+        <!-- Footer -->
+        <footer class="footer">
+            <img src="https://ondc.org/assets/theme/images/ecom/how-will-change-mech.svg?v=399af293f9"
+                alt="Footer Image" style="width: 60%; margin-bottom: 1rem; background-color: #f7fafc;">
+            <div class="footer-text">© 2023 ShopAffordable. All rights reserved.</div>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,442 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        .header {
+            background-color: #232f3e;
+            color: white;
+            padding: 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+        }
+        .header .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+         ShopAffordable
+        </div>
+        <div class="search-bar">
+             <form action="http://127.0.0.1:5000/search" method="get">
+                 <input type="text" name="query" placeholder="Enter product name" required>
+                 <button type="submit">Search</button>
+             </form>
+         </div>
+    </header>
+    <h1>Search Results</h1>
+    <div>
+        {% for product in products %}
+        <div style="margin-bottom: 20px;">
+            <a href="{{ product.link }}" target="_blank">
+                <img src="{{ product.thumbnail }}" alt="Product Image" style="width:100px;height:100px;">
+                <h3>{{ product.title }}</h3>
+            </a>
+            <p>Price: {{ product.price }}</p>
+            <p>Seller: {{ product.source }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopAffordable</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #232f3e;
+            color: white;
+            padding: 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        .header .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+        }
+
+        .header .search-bar {
+            flex-grow: 1;
+            margin: 0 20px;
+            display: flex;
+            flex-direction: row;
+            /* Add this to align input and button horizontally */
+            gap: 10px;
+            /* Space between the input and button */
+        }
+
+        .header .search-bar input {
+            width: 100%;
+            width: 800px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            flex: 1;
+            /* Ensure the input takes up available space */
+        }
+
+        .header .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            /* Add your preferred color */
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .header .search-bar button:hover {
+            background-color: #0056b3;
+            /* Slightly darker color for hover */
+        }
+
+        .header .login {
+            font-size: 18px;
+            padding-right: 30px;
+        }
+
+        .header .login a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Category Bar Styling */
+        .category-bar {
+            position: fixed;
+            top: 65px;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #f5f5f5;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+
+        .category-bar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .category-bar li {
+            margin: 0 15px;
+        }
+
+        .category-bar a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .category-bar a:hover {
+            color: #ff9800;
+        }
+
+
+        /* Sidebar CSS */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 900;
+            width: 340px;
+            height: 100vh;
+            margin-top: 115px;
+            background-color: #fff;
+            border-left: 1px solid #ddd;
+            padding: 20px;
+            display: none;
+            overflow-y: auto;
+            /* Add this line to enable scrolling */
+        }
+
+        .comparisons-container {
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            padding-top: 60px;
+        }
+
+        .tile {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .tile img {
+            width: 100%;
+            height: auto;
+            /* Maintain aspect ratio */
+            object-fit: contain;
+            /* Ensure the entire image fits */
+            background-color: #f9f9f9;
+            /* Add a background for images with transparency */
+            padding: 10px;
+            /* Space around the image */
+            max-height: 250px;
+            /* Limit the height for uniformity */
+        }
+
+        .tile h3 {
+            font-size: 18px;
+            margin: 10px 0;
+            padding: 0 10px;
+            color: #333;
+        }
+
+        .tile p {
+            font-size: 14px;
+            color: #000000;
+            margin: 5px 0;
+        }
+
+        .tile a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .tile a:hover {
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 14px;
+            background: #f9f9f9;
+        }
+
+        .tileside {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .tileside img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .tileside h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .tileside p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="{{ url_for('main') }}">ShopAffordable</a>
+        </div>
+        <div>
+            <form action="http://127.0.0.1:5000/ShopAffordable.com/search" method="get" class="search-bar">
+                <input type="text" name="query" placeholder="Enter product name" required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div class="login">
+            {% if 'username' in session %}
+            <a href="{{ url_for('dashboard') }}">
+                Hello, {{ session['username'] }}
+            </a>
+            {% else %}
+            <a href="{{ url_for('show_login_page') }}">Login</a>
+            {% endif %}
+        </div>
+    </header>
+    <div class="category-bar">
+        <ul>
+            <li><a href="{{ url_for('category', category_name='electronics') }}">Electronics</a></li>
+            <li><a href="{{ url_for('category', category_name='fashion') }}">Fashion</a></li>
+            <li><a href="{{ url_for('category', category_name='home-appliances') }}">Home Appliances</a></li>
+            <li><a href="{{ url_for('category', category_name='books') }}">Books</a></li>
+            <!-- Add more categories as needed -->
+        </ul>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <h2>Product Comparisons</h2>
+        <div class="comparisons-container">
+            <!-- Comparison items will be rendered here -->
+        </div>
+    </div>
+    <h1>Showing results for: {{ category }}</h1>
+    <div class="container">
+        {% for product in products %}
+        <div class="tile" data-product-id="{{ product.id }}">
+            <a class="tile-link">
+                <img src="{{ product.image }}" alt="Product Image">
+                <h3>{{ product.title }}</h3>
+                <p><strong>Price:</strong> {{ product.price }}</p>
+                <p><strong>Seller:</strong> {{ product.seller }}</p>
+            </a>
+        </div>
+        {% else %}
+        <p>No products found for this query.</p>
+        {% endfor %}
+    </div>
+
+    <!-- <div class="container">
+        {% for product in products %}
+        <div class="tile">
+            <a href="{{ product.link }}" target="_blank">
+                <img src="{{ product.image }}" alt="Product Image">
+                <h3>{{ product.title }}</h3>
+            </a>
+            <p><strong>Price:</strong> {{ product.price }}</p>
+            <p><strong>Seller:</strong> {{ product.source }}</p>
+        </div>
+        {% endfor %}
+    </div> -->
+
+
+
+
+    <footer>
+        Results powered by SerpAPI | <a href="/">Search Again</a>
+    </footer>
+</body>
+<script>
+    // Toggle sidebar function
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
+    }
+    // Close sidebar when clicked outside
+    document.addEventListener('click', function (event) {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar.style.display === 'block' && !sidebar.contains(event.target)) {
+            sidebar.style.display = 'none';
+        }
+    });
+    // Render comparison items function
+    // Render comparison items function
+    function renderComparisonItems(comparisonData) {
+        const comparisonsContainer = document.querySelector('.comparisons-container');
+        comparisonsContainer.innerHTML = '';
+
+        comparisonData.forEach((item) => {
+            const comparisonItem = document.createElement('div');
+            comparisonItem.classList.add('tile');
+            comparisonItem.innerHTML = `
+            <img src="${item.image}" alt="${item.title}" style="width: 50px; height: 50px;">
+            <h3>${item.title}</h3>
+            <p>Price: ${item.price}</p>
+            <p>Website: ${item.seller}</p>
+        `;
+            comparisonItem.addEventListener('click', () => {
+                fetch('/api/get_product_link', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'product_name': item.title,
+                        'price': item.price,
+                        'seller': item.seller
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        window.open(data.product_link, '_blank');
+                    });
+            });
+            comparisonsContainer.appendChild(comparisonItem);
+        });
+    }
+
+    // Call fetch and render functions
+    document.querySelectorAll('.tile').forEach((tile) => {
+        tile.addEventListener('click', (event) => {
+            event.preventDefault();
+            const productName = tile.querySelector('h3').textContent;
+            fetch(`/api/comparison/${productName.replace('/', '%20')}`)
+                .then((response) => response.json())
+                .then((comparisonData) => {
+                    renderComparisonItems(comparisonData);
+                    toggleSidebar();
+                });
+        });
+    });
+</script>
+
+</html>
