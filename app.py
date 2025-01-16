@@ -93,12 +93,12 @@ mysql = MySQL(app)
 
 
 # Function to render the login page
-@app.route('/ShopAffordable.com/login', methods=['GET'])
+@app.route('/shopaffordable.netlify.app/login', methods=['GET'])
 def show_login_page():
     return render_template('index_login.html')  # Render the login form
 
 # Function to handle login form submission and redirect to dashboard if password is correct
-@app.route('/ShopAffordable.com/login', methods=['POST'])
+@app.route('/shopaffordable.netlify.app/login', methods=['POST'])
 def handle_login():
     if request.method == 'POST':
         email = request.form['email']
@@ -302,7 +302,7 @@ def category(category_name):
 
 
 # Home route that serves the main page
-@app.route('/ShopAffordable.com')
+@app.route('/shopaffordable.netlify.app')
 def main():
 
     if 'username' in session:  # Check if 'username' exists in the session
@@ -311,12 +311,12 @@ def main():
     else:
         # flash('Please log in to access this page.', 'warning')
         return render_template('main.html') # Redirect to the login page
-# @app.route('/ShopAffordable.com')
+# @app.route('/shopaffordable.netlify.app')
 # def main():
 #     return render_template('main.html')
 
 
-# @app.route('/ShopAffordable.com/login')
+# @app.route('/shopaffordable.netlify.app/login')
 # def login():
 #     return render_template('index_login.html')
 
@@ -361,7 +361,7 @@ def get_product_link_api():
     seller = data['seller']
     product_link = get_product_link(product_name, price, seller)
     return jsonify({'product_link': product_link})
-@app.route('/ShopAffordable.com/search')
+@app.route('/shopaffordable.netlify.app/search')
 def search():
     query = request.args.get('query')  # Get the query from the search form
     print(f"Search query received: {query}")  # Debugging output
@@ -455,10 +455,10 @@ if __name__ == '__main__':
 # @app.route('/')
 # def main1():
 #     return render_template('main.html')
-# @app.route('/ShopAffordable.com')
+# @app.route('/shopaffordable.netlify.app')
 # def main():
 #     return render_template('main.html')  # Render main.html from the same folder
-# @app.route('/ShopAffordable.com/login')
+# @app.route('/shopaffordable.netlify.app/login')
 # def login():
 #     return render_template('index_login.html')  # Render main.html from the same folder
 # # Search route that fetches product data and shows results
