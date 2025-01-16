@@ -301,8 +301,9 @@ def category(category_name):
     return render_template('results_cat.html', category=category_name, products=products)
 
 
+
 # Home route that serves the main page
-@app.route('/shopaffordable.netlify.app')
+@app.route('holabeast.pythonanywhere.com/shopaffordable.netlify.app/')
 def main():
 
     if 'username' in session:  # Check if 'username' exists in the session
