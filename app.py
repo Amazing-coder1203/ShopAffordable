@@ -303,7 +303,7 @@ def category(category_name):
 
 
 # Home route that serves the main page
-@app.route('holabeast.pythonanywhere.com/shopaffordable.netlify.app/')
+@app.route('/')
 def main():
 
     if 'username' in session:  # Check if 'username' exists in the session
