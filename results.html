@@ -1,61 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
-    <style>
-        .header {
-            background-color: #232f3e;
-            color: white;
-            padding: 20px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header .logo {
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .header .search-bar {
-            flex-grow: 1;
-            margin: 0 20px;
-        }
-        .header .search-bar input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-        }
-    </style>
-</head>
-<body>
-    <header class="header">
-        <div class="logo">
-         ShopAffordable
-        </div>
-        <div class="search-bar">
-             <form action="http://127.0.0.1:5000/search" method="get">
-                 <input type="text" name="query" placeholder="Enter product name" required>
-                 <button type="submit">Search</button>
-             </form>
-         </div>
-    </header>
-    <h1>Search Results</h1>
-    <div>
-        {% for product in products %}
-        <div style="margin-bottom: 20px;">
-            <a href="{{ product.link }}" target="_blank">
-                <img src="{{ product.thumbnail }}" alt="Product Image" style="width:100px;height:100px;">
-                <h3>{{ product.title }}</h3>
-            </a>
-            <p>Price: {{ product.price }}</p>
-            <p>Seller: {{ product.source }}</p>
-        </div>
-        {% endfor %}
-    </div>
-</body>
-</html> -->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -73,9 +16,12 @@
 
         .header {
             position: fixed;
-            top: 0; left: 0; width: 100%; z-index: 1000;
-            background-color: #232f3e;
-            color: white;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
             padding: 20px 20px;
             display: flex;
             justify-content: space-between;
@@ -90,7 +36,7 @@
 
         .logo a {
             text-decoration: none;
-            color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
         }
 
         .header .search-bar {
@@ -98,8 +44,10 @@
             margin: 0 20px;
             display: flex;
             flex-direction: row;
+
             /* Add this to align input and button horizontally */
             gap: 10px;
+
             /* Space between the input and button */
         }
 
@@ -107,7 +55,8 @@
             width: 100%;
             width: 800px;
             padding: 10px;
-            border: none;
+            border: solid;
+            border-color: #000000;
             border-radius: 4px;
             flex: 1;
             /* Ensure the input takes up available space */
@@ -116,15 +65,15 @@
         .header .search-bar button {
             padding: 10px 20px;
             border: none;
-            background-color: #007BFF;
+            background-color: #000000;
             /* Add your preferred color */
-            color: white;
+            color: rgb(255, 255, 255);
             border-radius: 4px;
             cursor: pointer;
         }
 
         .header .search-bar button:hover {
-            background-color: #0056b3;
+            background-color: #bcbcbc;
             /* Slightly darker color for hover */
         }
 
@@ -134,42 +83,92 @@
         }
 
         .header .login a {
-            color: white;
+            color: rgb(1, 1, 1);
             text-decoration: none;
         }
 
         /* Category Bar Styling */
         .category-bar {
             position: fixed;
-            top: 65px; left: 0;  width: 100%; z-index: 1000;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
             background-color: #f5f5f5;
-            padding: 10px;
+            /* padding: 10px; */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-top: 10px;
         }
 
-        .category-bar ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
+        .navbar {
             display: flex;
             justify-content: space-around;
+            background-color: #ebebeb;
+            padding: 10px;
         }
 
-        .category-bar li {
-            margin: 0 15px;
+        /* Dropdown Button */
+        .dropbtn {
+            background-color: #ebebeb;
+            color: rgb(0, 0, 0);
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
         }
 
-        .category-bar a {
+        /* Dropdown Content */
+        .dropdown-content {
+            display: none;
+            position: fixed;
+            /* Fixed position to cover the entire screen */
+            top: 140px;
+            /* Adjust this value to match the height of your title/nav bar */
+            left: 0;
+            width: 100vw;
+            /* Full viewport width */
+            height: calc(100vh - 60px);
+            /* Full viewport height minus the title/nav bar height */
+            background-color: #f9f9f9;
+            z-index: 1000;
+            /* Ensure it appears above other content */
+            overflow-y: auto;
+            /* Add scroll if content overflows vertically */
+            padding: 50px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        }
+
+
+
+        /* Columns inside the dropdown */
+        .column {
+            float: left;
+            width: 25%;
+            padding: 10px;
+        }
+
+        .column h3 {
+            margin-bottom: 5px;
+            /* Reduced margin below h3 titles */
+            font-size: 16px;
+            color: #2874f0;
+        }
+
+        .column a {
+            display: block;
+            color: black;
+            padding: 5px 0;
             text-decoration: none;
-            font-size: 18px;
-            color: #333;
         }
 
-        .category-bar a:hover {
-            color: #ff9800;
+        .column a:hover {
+            color: #2874f0;
         }
 
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
         /* Sidebar CSS */
         .sidebar {
@@ -257,6 +256,58 @@
             text-decoration: none;
         }
 
+        .tile2 {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tile2:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .tile2 img {
+            width: 100%;
+            height: auto;
+            /* Maintain aspect ratio */
+            object-fit: contain;
+            /* Ensure the entire image fits */
+            background-color: #f9f9f9;
+            /* Add a background for images with transparency */
+            padding: 10px;
+            /* Space around the image */
+            max-height: 250px;
+            /* Limit the height for uniformity */
+        }
+
+        .tile2 h3 {
+            font-size: 18px;
+            margin: 10px 0;
+            padding: 0 10px;
+            color: #333;
+        }
+
+        .tile2 p {
+            font-size: 14px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .tile2 a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .tile2 a:hover {
+            text-decoration: none;
+        }
+
         footer {
             text-align: center;
             margin-top: 20px;
@@ -317,13 +368,662 @@
         </div>
     </header>
     <div class="category-bar">
-        <ul>
-            <li><a href="{{ url_for('category', category_name='electronics') }}">Electronics</a></li>
-            <li><a href="{{ url_for('category', category_name='fashion') }}">Fashion</a></li>
-            <li><a href="{{ url_for('category', category_name='home-appliances') }}">Home Appliances</a></li>
-            <li><a href="{{ url_for('category', category_name='books') }}">Books</a></li>
+        <!--<ul>-->
+        <!--    <li><a href="{{ url_for('category', category_name='electronics') }}">Electronics</a></li>-->
+        <!--    <li><a href="{{ url_for('category', category_name='fashion') }}">Fashion</a></li>-->
+        <!--    <li><a href="{{ url_for('category', category_name='home-appliances') }}">Home Appliances</a></li>-->
+        <!--    <li><a href="{{ url_for('category', category_name='books') }}">Books</a></li>-->
             <!-- Add more categories as needed -->
-        </ul>
+        <!--</ul>-->
+
+        <nav class="navbar">
+            <div class="dropdown">
+                <button class="dropbtn">Electronics</button>
+                <div class="dropdown-content">
+                    <div class="column">
+                        <h3>Mobile Accessories</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mobile Cases">Mobile Cases</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Headphones & Headsets">Headphones & Headsets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Power Banks">Power Banks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Screenguards">Screenguards</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Memory Cards">Memory Cards</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Headphones">Smart Headphones</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mobile Cables">Mobile Cables</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mobile Chargers">Mobile Chargers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mobile Holders">Mobile Holders</a>
+                    </div>
+                    <div class="column">
+                        <h3>Smart Wearable Tech</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Watches">Smart Watches</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Glasses (VR)">Smart Glasses (VR)</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Bands">Smart Bands</a>
+                    </div>
+                    <div class="column">
+                        <h3>Health Care Appliances</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bp Monitors">Bp Monitors</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Weighing Scale">Weighing Scale</a>
+                    </div>
+                    <div class="column">
+                        <h3>Laptops</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Gaming Laptops">Gaming Laptops</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Laptops on Buyback Guarantee">Laptops on Buyback Guarantee</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Laptop Skins & Decals">Laptop Skins & Decals</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Laptop Bags">Laptop Bags</a>
+                    </div>
+                    <div class="column">
+                        <h3>Desktop PCs</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Gaming & Accessories">Gaming & Accessories</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Computer Accessories">Computer Accessories</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/External Hard Disks">External Hard Disks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Pendrives">Pendrives</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mouse">Mouse</a>
+                    </div>
+                    <div class="column">
+                        <h3>Televisions</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart & Ultra HD">Smart & Ultra HD</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Top Brands">Top Brands</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Shop by Screen Size">Shop by Screen Size</a>
+                    </div>
+                    <div class="column">
+                        <h3>Speakers</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Home Audio Speakers">Home Audio Speakers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Home Theatres">Home Theatres</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Soundbars">Soundbars</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bluetooth Speakers">Bluetooth Speakers</a>
+                    </div>
+                    <div class="column">
+                        <h3>Camera</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/DSLR & Mirrorless">DSLR & Mirrorless</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Compact & Bridge Cameras">Compact & Bridge Cameras</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sports & Action">Sports & Action</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Camera Accessories">Camera Accessories</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Lens">Lens</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Tripods">Tripods</a>
+                    </div>
+                    <div class="column">
+                        <h3>Smart Home Automation</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Google Nest">Google Nest</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Security System">Smart Security System</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Door Locks">Smart Door Locks</a>
+                    </div>
+                    <div class="column">
+                        <h3>Featured</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Google Assistant Store">Google Assistant Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Flipkart SmartBuy">Flipkart SmartBuy</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Li-Polymer Power Banks">Li-Polymer Power Banks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sony PS4 Pro & Slim">Sony PS4 Pro & Slim</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Apple Products">Apple Products</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Microsoft Store">Microsoft Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Lenovo Phab Series">Lenovo Phab Series</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/JBL Speakers">JBL Speakers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smartphones on Buyback Guarantee">Smartphones on Buyback Guarantee</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Philips">Philips</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Dr. Morepen">Dr. Morepen</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Complete Mobile Protection">Complete Mobile Protection</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mobiles No Cost EMI">Mobiles No Cost EMI</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Huawei Watch GT 2e Smart Watch">Huawei Watch GT 2e Smart Watch</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">TVs & Appliances</button>
+                <div class="dropdown-content">
+                    <div class="column">
+                        <h3>Television</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart & Ultra HD">Smart & Ultra HD</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Top Brands">Top Brands</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Shop by Screen Size">Shop by Screen Size</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/New Launches">New Launches</a>
+                    </div>
+                    <div class="column">
+                        <h3>Washing Machine</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Fully Automatic Front Load">Fully Automatic Front Load</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Semi Automatic Top Load">Semi Automatic Top Load</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Fully Automatic Top Load">Fully Automatic Top Load</a>
+                    </div>
+                    <div class="column">
+                        <h3>Air Conditioners</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Inverter AC">Inverter AC</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Split ACs">Split ACs</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Window ACs">Window ACs</a>
+                    </div>
+                    <div class="column">
+                        <h3>Refrigerators</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Refrigerators Single Door">Single Door</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Refrigerators Double Door">Double Door</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Refrigerators Triple Door">Triple Door</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Refrigerators Side by Side">Side by Side</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Refrigerators Convertible">Convertible</a>
+                    </div>
+                    <div class="column">
+                        <h3>Kitchen Appliances</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Microwave Ovens">Microwave Ovens</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Oven Toaster Grills (OTG)">Oven Toaster Grills (OTG)</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Juicer/Mixer/Grinder">Juicer/Mixer/Grinder</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Electric Kettle">Electric Kettle</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Induction Cooktops">Induction Cooktops</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Chimneys">Chimneys</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Hand Blenders">Hand Blenders</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sandwich Makers">Sandwich Makers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Pop Up Toasters">Pop Up Toasters</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Electric Cookers">Electric Cookers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wet Grinders">Wet Grinders</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Food Processors">Food Processors</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Coffee Makers">Coffee Makers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Dishwashers">Dishwashers</a>
+                    </div>
+                    <div class="column">
+                        <h3>Healthy Living Appliances</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Irons">Irons</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Water Purifiers">Water Purifiers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Fans">Fans</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Air Coolers">Air Coolers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Inverters">Inverters</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Vacuum Cleaners">Vacuum Cleaners</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sewing Machines">Sewing Machines</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Voltage Stabilizers">Voltage Stabilizers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Water Geysers">Water Geysers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Immersion Rods">Immersion Rods</a>
+                    </div>
+                    <div class="column">
+                        <h3>Top Brands</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/LG">LG</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Hitachi">Hitachi</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Carrier">Carrier</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Livpure">Livpure</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Philips">Philips</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bajaj">Bajaj</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/IFB">IFB</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Eureka Forbes">Eureka Forbes</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Kaff">Kaff</a>
+                    </div>
+                    <div class="column">
+                        <h3>Buying Guides</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Televisions">Televisions</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Washing Machines">Washing Machines</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Refrigerators">Refrigerators</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Air Conditioners">Air Conditioners</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Water Purifiers">Water Purifiers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Air Purifiers">Air Purifiers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Chimneys">Chimneys</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Water Geysers">Water Geysers</a>
+                    </div>
+                    <div class="column">
+                        <h3>New Launches</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Cocoa Smart TVs">Cocoa Smart TVs</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Nokia (55) 4K Android TV">Nokia (55) 4K Android TV</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mi (32) 4A Pro Android TV">Mi (32) 4A Pro Android TV</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/MarQ (43) FHD Smart TV">MarQ (43) FHD Smart TV</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/LG Refrigerators">LG Refrigerators</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Thomson (40) 4K Smart TV">Thomson (40) 4K Smart TV</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Whirlpool Refrigerators">Whirlpool Refrigerators</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Kodak (22) | (32) LED TVs">Kodak (22) | (32) LED TVs</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Men</button>
+                <div class="dropdown-content">
+                    <div class="column">
+                        <h3>Footwear</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Sports Shoes">Sports Shoes</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Casual Shoes">Casual Shoes</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Formal Shoes">Formal Shoes</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sandals & Floaters">Sandals & Floaters</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Flip-Flops">Flip-Flops</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Loaters">Loaters</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Boots">Boots</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Running Shoes">Running Shoes</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sneakers">Sneakers</a>
+                    </div>
+                    <div class="column">
+                        <h3>Men's Grooming</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Deodorants">Deodorants</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Perfumes">Perfumes</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Beard Care & Grooming">Beard Care & Grooming</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Shaving & Aftershave">Shaving & Aftershave</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sexual Wellness">Sexual Wellness</a>
+                    </div>
+                    <div class="column">
+                        <h3>Clothing</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Top Wear">Top Wear</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men T-Shirts">T-Shirts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Formal Shirts">Formal Shirts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Casual Shirts">Casual Shirts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Bottom Wear">Bottom Wear</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Jeans">Jeans</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Casual Trousers">Casual Trousers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Formal Trousers">Formal Trousers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Track Pants">Track Pants</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Shorts">Shorts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Cargos">Cargos</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Three Fourths">Three Fourths</a>
+                    </div>
+                    <div class="column">
+                        <h3>Suits, Blazers & Waistcoats</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Suits">Suits</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Blazers">Blazers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Men Waistcoats">Waistcoats</a>
+                    </div>
+                    <div class="column">
+                        <h3>Ties, Socks, Caps & More</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Ties">Ties</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Socks">Socks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Caps">Caps</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Belts">Belts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wallets">Wallets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sunglasses">Sunglasses</a>
+                    </div>
+                    <div class="column">
+                        <h3>Fabrics</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Cotton">Cotton</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Linen">Linen</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Silk">Silk</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wool">Wool</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Polyester">Polyester</a>
+                    </div>
+                    <div class="column">
+                        <h3>Winter Wear</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sweatshirts">Sweatshirts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Jackets">Jackets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sweaters">Sweaters</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Tracksuits">Tracksuits</a>
+                    </div>
+                    <div class="column">
+                        <h3>Ethnic Wear</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Kurta">Kurta</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Ethnic Sets">Ethnic Sets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sherwanis">Sherwanis</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Ethnic Pyjama">Ethnic Pyjama</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Dhoti">Dhoti</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Lungi">Lungi</a>
+                    </div>
+                    <div class="column">
+                        <h3>Innerwear & Loungewear</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Briefs & Trunks">Briefs & Trunks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Vests">Vests</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Boxers">Boxers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Pyjamas and Lounge Pants">Pyjamas and Lounge Pants</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Thermals">Thermals</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Night Suits">Night Suits</a>
+                    </div>
+                    <div class="column">
+                        <h3>Watches</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Fastrack">Fastrack</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Casio">Casio</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Titan">Titan</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Fossil">Fossil</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sonata">Sonata</a>
+                    </div>
+                    <div class="column">
+                        <h3>Accessories</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Backpacks">Backpacks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wallets">Wallets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Belts">Belts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sunglasses">Sunglasses</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Luggage & Travel">Luggage & Travel</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Frames">Frames</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Jewellery">Jewellery</a>
+                    </div>
+                    <div class="column">
+                        <h3>Sports & Fitness Store</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Watches">Smart Watches</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Bands">Smart Bands</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Personal Care Appliances">Personal Care Appliances</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Trimmers">Trimmers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Shavers">Shavers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Grooming Kits">Grooming Kits</a>
+                    </div>
+                    <div class="column">
+                        <h3>Featured</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Watches Store">Watches Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Footwear Club">Footwear Club</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bags & Wallet">Bags & Wallet</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/T-Shirt Store">T-Shirt Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Adidas">Adidas</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Beardo">Beardo</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Reebok">Reebok</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Skechers">Skechers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Nike">Nike</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Women</button>
+                <div class="dropdown-content">
+                    <div class="column">
+                        <h3>Clothing</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Top Wear">Top Wear</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women T-Shirts">T-Shirts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Formal Shirts">Formal Shirts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Casual Shirts">Casual Shirts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Bottom Wear">Bottom Wear</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Jeans">Jeans</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Casual Trousers">Casual Trousers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Formal Trousers">Formal Trousers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Track Pants">Track Pants</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Shorts">Shorts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Cargos">Cargos</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Three Fourths">Three Fourths</a>
+                    </div>
+                    <div class="column">
+                        <h3>Suits, Blazers & Waistcoats</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Suits">Suits</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Blazers">Blazers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/WomenWaistcoats">Waistcoats</a>
+                    </div>
+                    <div class="column">
+                        <h3>Ties, Socks, Caps & More</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Ties">Ties</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Socks">Socks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Caps">Caps</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Belts">Belts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Wallets">Wallets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Sunglasses">Sunglasses</a>
+                    </div>
+                    <div class="column">
+                        <h3>Fabrics</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Cotton">Cotton</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Linen">Linen</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Silk">Silk</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wool">Wool</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Polyester">Polyester</a>
+                    </div>
+                    <div class="column">
+                        <h3>Winter Wear</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Sweatshirts">Sweatshirts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Jackets">Jackets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Sweaters">Sweaters</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Tracksuits">Tracksuits</a>
+                    </div>
+                    <div class="column">
+                        <h3>Ethnic Wear</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Kurta">Kurta</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Ethnic Sets">Ethnic Sets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Sherwanis">Sherwanis</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Ethnic Pyjama">Ethnic Pyjama</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Dhoti">Dhoti</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Women Lungi">Lungi</a>
+                    </div>
+                    <div class="column">
+                        <h3>Innerwear & Loungewear</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Briefs & Trunks">Briefs & Trunks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Vests">Vests</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Boxers">Boxers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Pyjamas and Lounge Pants">Pyjamas and Lounge Pants</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Thermals">Thermals</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Night Suits">Night Suits</a>
+                    </div>
+                    <div class="column">
+                        <h3>Watches</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Fastrack">Fastrack</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Casio">Casio</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Titan">Titan</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Fossil">Fossil</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sonata">Sonata</a>
+                    </div>
+                    <div class="column">
+                        <h3>Accessories</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Backpacks">Backpacks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wallets">Wallets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Belts">Belts</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sunglasses">Sunglasses</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Luggage & Travel">Luggage & Travel</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Frames">Frames</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Jewellery">Jewellery</a>
+                    </div>
+                    <div class="column">
+                        <h3>Sports & Fitness Store</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Watches">Smart Watches</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Bands">Smart Bands</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Personal Care Appliances">Personal Care Appliances</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Trimmers">Trimmers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Shavers">Shavers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Grooming Kits">Grooming Kits</a>
+                    </div>
+                    <div class="column">
+                        <h3>Featured</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Watches Store">Watches Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Footwear Club">Footwear Club</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bags & Wallet">Bags & Wallet</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/T-Shirt Store">T-Shirt Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Adidas">Adidas</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Beardo">Beardo</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Reebok">Reebok</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Skechers">Skechers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Nike">Nike</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Baby & Kids</button>
+                <div class="dropdown-content">
+                    <div class="column">
+                        <h3>Kids Clothing</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Boys' Clothing">Boys' Clothing</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Girls' Clothing">Girls' Clothing</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Boys' Clothing">Baby Boys' Clothing</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Girls' Clothing">Baby Girls' Clothing</a>
+                    </div>
+                    <div class="column">
+                        <h3>Kids' Footwear</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Boys' Footwear">Boys' Footwear</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Girls' Footwear">Girls' Footwear</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Infant Footwear">Infant Footwear</a>
+                    </div>
+                    <div class="column">
+                        <h3>Toys</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Remote Control Toys">Remote Control Toys</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Educational Toys">Educational Toys</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Soft Toys">Soft Toys</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Cars & Die-cast Vehicles">Cars & Die-cast Vehicles</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Outdoor Toys">Outdoor Toys</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Action Figures">Action Figures</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Board Games">Board Games</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Musical Toys">Musical Toys</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Dolls & Doll Houses">Dolls & Doll Houses</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Puzzles">Puzzles</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/S.T.E.M Toys">S.T.E.M Toys</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Helicopter & Drones">Helicopter & Drones</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Toy Guns">Toy Guns</a>
+                    </div>
+                    <div class="column">
+                        <h3>Party Supplies</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Party Decorations">Party Decorations</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Party Tableware">Party Tableware</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Party Favors">Party Favors</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Party Costumes">Party Costumes</a>
+                    </div>
+                    <div class="column">
+                        <h3>School Supplies</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/School Bags">School Bags</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/School Combo Sets">School Combo Sets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Lunch Box">Lunch Box</a>
+                    </div>
+                    <div class="column">
+                        <h3>Baby Care</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Diapers">Diapers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wipes">Wipes</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Diapering & Potty Training">Diapering & Potty Training</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Bath, Hair & Skin Care">Baby Bath, Hair & Skin Care</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Grooming">Baby Grooming</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Bathing Accessories">Baby Bathing Accessories</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Gift Sets & Combo">Baby Gift Sets & Combo</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Oral Care">Baby Oral Care</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Nursing & Breast Feeding">Nursing & Breast Feeding</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Food">Baby Food</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Feeding Bottle & Accessories">Baby Feeding Bottle & Accessories</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Feeding Utensils & Accessories">Baby Feeding Utensils & Accessories</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Bedding">Baby Bedding</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Gear">Baby Gear</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Medical & Health Care">Baby Medical & Health Care</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Proofing & Safety">Baby Proofing & Safety</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Baby Cleaners & Detergents">Baby Cleaners & Detergents</a>
+                    </div>
+                    <div class="column">
+                        <h3>Featured Brands</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Miss & Chief">Miss & Chief</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Barbie">Barbie</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Disney">Disney</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/United Colors of Benetton">United Colors of Benetton</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/The Children's Place">The Children's Place</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/US Polo">US Polo</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Flying Machine">Flying Machine</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Crocs">Crocs</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Puma">Puma</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Funskool">Funskool</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Lego">Lego</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Luvlap">Luvlap</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mamy Poko">Mamy Poko</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mee Mee">Mee Mee</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Home & Furniture</button>
+                <div class="dropdown-content">
+                    <div class="column">
+                        <h3>Kitchen, Cookware & Serveware</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Pans">Pans</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Tawas">Tawas</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Pressure Cookers">Pressure Cookers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Kitchen Tools">Kitchen Tools</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Gas Stoves">Gas Stoves</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Tableware & Dinnerware">Tableware & Dinnerware</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Coffee Mugs">Coffee Mugs</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Dinner Sets">Dinner Sets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Barware">Barware</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Kitchen Storage">Kitchen Storage</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Water Bottles">Water Bottles</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Lunch Boxes">Lunch Boxes</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Flasks">Flasks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Casseroles">Casseroles</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Kitchen Containers">Kitchen Containers</a>
+                    </div>
+                    <div class="column">
+                        <h3>Furniture</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bed Room Furniture">Bed Room Furniture</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Beds">Beds</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mattresses">Mattresses</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wardrobes">Wardrobes</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Living Room Furniture">Living Room Furniture</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sofa">Sofa</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Sofa Beds">Sofa Beds</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/TV Units">TV Units</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Dining Tables & Chairs">Dining Tables & Chairs</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Coffee Tables">Coffee Tables</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Shoe Racks">Shoe Racks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Office & Study Furniture">Office & Study Furniture</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Kids Room Furniture">Kids Room Furniture</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/DIY Furniture">DIY Furniture</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bean Bags">Bean Bags</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Collapsible Wardrobes">Collapsible Wardrobes</a>
+                    </div>
+                    <div class="column">
+                        <h3>Furnishing</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bedsheets">Bedsheets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Curtains">Curtains</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Cushions & Pillows">Cushions & Pillows</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Blankets">Blankets</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bath Towels">Bath Towels</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Kitchen & Table Linen">Kitchen & Table Linen</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Floor Coverings">Floor Coverings</a>
+                    </div>
+                    <div class="column">
+                        <h3>Smart Home Automation</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Security System">Smart Security System</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Smart Door Locks">Smart Door Locks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Google Nest">Google Nest</a>
+                    </div>
+                    <div class="column">
+                        <h3>Home Improvement</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Tools & Measuring Equipment">Tools & Measuring Equipment</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Home Utilities & Organizers">Home Utilities & Organizers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Lawn & Gardening">Lawn & Gardening</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bathroom & Kitchen Fittings">Bathroom & Kitchen Fittings</a>
+                    </div>
+                    <div class="column">
+                        <h3>Home Decor</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Paintings">Paintings</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Clocks">Clocks</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wall Shelves">Wall Shelves</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Stickers">Stickers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Showpieces & Figurines">Showpieces & Figurines</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Home Lighting">Home Lighting</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bulbs">Bulbs</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Wall Lamps">Wall Lamps</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Table Lamps">Table Lamps</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Ceiling Lamps">Ceiling Lamps</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Emergency Lights">Emergency Lights</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Festive Decor & Gifts">Festive Decor & Gifts</a>
+                    </div>
+                    <div class="column">
+                        <h3>Pet Supplies</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Dogs">Dogs</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Cats">Cats</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Fish & Aquatics">Fish & Aquatics</a>
+                    </div>
+                    <div class="column">
+                        <h3>Featured</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Christmas Store">Christmas Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Mugs Store">Mugs Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Gardening Store">Gardening Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Stainless Steel Store">Stainless Steel Store</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Milton">Milton</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Bombay Dyeing">Bombay Dyeing</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/@home">@home</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/HomeTown">HomeTown</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Ajanta">Ajanta</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Spaces by Welspun">Spaces by Welspun</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Prestige">Prestige</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Perfect Home Store">Perfect Home Store</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown sports-books-more">
+                <button class="dropbtn">Sports, Books & More</button>
+                <div class="dropdown-content">
+                    <div class="column">
+                        <h3>Sports</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Cricket">Cricket</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Badminton">Badminton</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Cycling">Cycling</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Football">Football</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Skating">Skating</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Camping & Hiking">Camping & Hiking</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Swimming">Swimming</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Exercise Fitness">Exercise Fitness</a>
+                    </div>
+                    <div class="column">
+                        <h3>Books</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Entrance Exams">Entrance Exams</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Academics">Academics</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Literature & Fiction">Literature & Fiction</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Non Fiction">Non Fiction</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Young Readers">Young Readers</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Self-Help">Self-Help</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/E-Learning">E-Learning</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Preorders">Preorders</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Indian Languages">Indian Languages</a>
+                    </div>
+                    <div class="column">
+                        <h3>Auto Accessories</h3>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Helmets & Riding Gears">Helmets & Riding Gears</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Car Audio/Video">Car Audio/Video</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Car Mobile Accessories">Car Mobile Accessories</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Car & Bike Care">Car & Bike Care</a>
+                        <a href="https://shopaffordable.pythonanywhere.com/category/Vehicle Lubricants">Vehicle Lubricants</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
     </div>
     <!-- Sidebar HTML structure -->
     <div class="sidebar" id="sidebar">
@@ -332,11 +1032,43 @@
             <!-- Comparison items will be rendered here -->
         </div>
     </div>
+
+    <div style="padding-top: 80px;">
     <h1>Search Results</h1>
+    <h2>Product from ONDC</h2>
+    {% if products_from_database %}
+    <div>
+        <div class="container"class="product-from-database" >
+
+            {% for product in products_from_database %}
+            <div class= "tile"
+            data-name="{{ product.name }}"
+            data-price="{{ product.price }}"
+            data-seller="{{ shop_names.get(product.shop_id, 'Unknown Shop') }}"
+            data-image="{{ product.image }}">
+
+
+            <a class="tile-link">
+            <img src="{{ product.image }}" alt="Product Image">
+            <h3>{{ product.name }}</h3>
+            <p>Price: {{ product.price }}</p>
+            <p>Sold by: {{ shop_names.get(product.shop_id, 'Unknown Shop') }}</p>
+            </a>
+            </div>
+
+            {% endfor %}
+        {% else %}
+            <p>No product found in the database for this category.</p>
+        {% endif %}</div></div>
+
+    </div>
+    <h2>Product from Other Sources</h2>
     <div class="container">
+
         {% for product in products %}
         <div class="tile" data-product-id="{{ product.id }}">
             <a class="tile-link">
+
                 <img src="{{ product.image }}" alt="Product Image">
                 <h3>{{ product.title }}</h3>
                 <p><strong>Price:</strong> {{ product.price }}</p>
@@ -367,7 +1099,77 @@
     </footer>
 </body>
 <script>
-    // Toggle sidebar function
+
+    document.querySelectorAll('.dropbtn').forEach(button => {
+        button.addEventListener('click', () => {
+            const dropdownContent = button.nextElementSibling;
+            dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+
+<!--        // Toggle sidebar function-->
+// <!--    function toggleSidebar() {-->
+// <!--        const sidebar = document.getElementById('sidebar');-->
+// <!--        sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';-->
+// <!--    }-->
+// <!--    // Close sidebar when clicked outside-->
+// <!--    document.addEventListener('click', function (event) {-->
+// <!--        const sidebar = document.getElementById('sidebar');-->
+// <!--        if (sidebar.style.display === 'block' && !sidebar.contains(event.target)) {-->
+// <!--            sidebar.style.display = 'none';-->
+// <!--        }-->
+// <!--    });-->
+// <!--    // Render comparison items function-->
+// <!--    // Render comparison items function-->
+// <!--function renderComparisonItems(comparisonData) {-->
+// <!--    const comparisonsContainer = document.querySelector('.comparisons-container');-->
+// <!--    comparisonsContainer.innerHTML = '';-->
+
+// <!--    comparisonData.forEach((item) => {-->
+// <!--        const comparisonItem = document.createElement('div');-->
+// <!--        comparisonItem.classList.add('tile');-->
+// <!--        comparisonItem.innerHTML = `-->
+// <!--            <img src="${item.image}" alt="${item.title}" style="width: 50px; height: 50px;">-->
+// <!--            <h3>${item.title}</h3>-->
+// <!--            <p>Price: ${item.price}</p>-->
+// <!--            <p>Website: ${item.seller}</p>-->
+// <!--        `;-->
+// <!--        comparisonItem.addEventListener('click', () => {-->
+// <!--            fetch('/api/get_product_link', {-->
+// <!--                method: 'POST',-->
+// <!--                headers: {-->
+// <!--                    'Content-Type': 'application/json'-->
+// <!--                },-->
+// <!--                body: JSON.stringify({-->
+// <!--                    'product_name': item.title,-->
+// <!--                    'price': item.price,-->
+// <!--                    'seller': item.seller-->
+// <!--                })-->
+// <!--            })-->
+// <!--            .then(response => response.json())-->
+// <!--            .then(data => {-->
+// <!--                window.open(data.product_link, '_blank');-->
+// <!--            });-->
+// <!--        });-->
+// <!--        comparisonsContainer.appendChild(comparisonItem);-->
+// <!--    });-->
+// <!--}-->
+
+// <!--    // Call fetch and render functions-->
+// <!--    document.querySelectorAll('.tile').forEach((tile) => {-->
+// <!--        tile.addEventListener('click', (event) => {-->
+// <!--            event.preventDefault();-->
+// <!--            const productName = tile.querySelector('h3').textContent;-->
+// <!--            fetch(`/api/comparison/${productName}`)-->
+// <!--                .then((response) => response.json())-->
+// <!--                .then((comparisonData) => {-->
+// <!--                    renderComparisonItems(comparisonData);-->
+// <!--                    toggleSidebar();-->
+// <!--                });-->
+// <!--        });-->
+// <!--    });-->
+
+
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
@@ -428,6 +1230,8 @@ function renderComparisonItems(comparisonData) {
                 });
         });
     });
+
+
 </script>
 
 </html>
