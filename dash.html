@@ -7,6 +7,10 @@
     <title>ShopAffordable Buyer Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -19,6 +23,8 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 1rem 0;
         }
+
+
 
         .header-container {
             display: flex;
@@ -70,6 +76,11 @@
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
+        }
+
+        .main-content h1{
+
+            font-size: 2rem;;
         }
 
         .grid-container {
@@ -194,16 +205,31 @@
         <header class="header">
             <div class="header-container">
                 <a class="logo" href="{{ url_for('main') }}">ShopAffordable</a>
+                {% if 'logged_in' in session %}
                 <nav class="nav-links">
+                    <!--<a>shop_id: {{ session.get('shop_id') }}</a>-->
                     <a href="{{ url_for('dashboard', show_profile='false') }}">Home</a>
+
+                    <!--and session.get('shop_id') -->
+                    {% if 'shop_id' in session and session.get('shop_id') %}
+                        <a href="{{ url_for('dashboard', show_shop='true') }}">Your Shop</a>
+                    {% else %}
+                        <a href="{{ url_for('register_shop') }}">Add Shop</a>
+                    {% endif %}
+
+                    {% if show_shop or show_analytics %}
+                    <a href="{{ url_for('dashboard', show_analytics='true') }}">Analytics</a>
+                    <a href="{{ url_for('dashboard', add_product='true') }}">Add product</a>
+                    <a href="#">Option3</a>
+                    {% else %}
                     <a href="#">Orders</a>
-                    <a href="#">Add Shop</a>
                     <a href="#">Cart</a>
-                    <a href="#"> <a href="{{ url_for('dashboard', show_profile='true') }}">Profile</a>
-                    
-                    
+                    <a href="{{ url_for('dashboard', show_profile='true') }}">Profile</a>
+                    {% endif %}
                     <a href="/logout">Logout</a>
+
                 </nav>
+                {% endif %}
                 <div class="header-icons">
                     <a>Welcome, {{ username }}</a>
                     <a href="#"><i class="fas fa-bell"></i></a>
@@ -214,132 +240,354 @@
         <!-- Main Content -->
         <main class="main-content">
 
-           <!-- ... (rest of the template remains the same) -->
+            <!-- ... (rest of the template remains the same) -->
 
-<!-- Main Content -->
-<main class="main-content">
-    {% if 'show_profile' in session %}
-        <h1>Profile Information</h1>
-        <div>
-            <p>Username: {{ session['username'] }}</p>
-            <p>Phone Number: {{ session['phone_number'] }}</p>
-            <p>Email Address: {{ session['email'] }}</p>
-        </div>
-        <form action="{{ url_for('edit_profile') }}" method="post">
-            <h2>Edit Profile</h2>
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" value="{{ session['username'] }}">
-            </div>
-            <div>
-                <label for="email">Email Address:</label>
-                <input type="email" id="email" name="email" value="{{ session['email'] }}">
-            </div>
-            <div>
-                <label for="phone_number">Phone Number:</label>
-                <input type="text" id="phone_number" name="phone_number" value="{{ session['phone_number'] }}">
-            </div>
-            <button type="submit">Save Changes</button>
-        </form>
-    {% else %}
-        <!-- ... (rest of the dashboard content remains the same) -->
-        <div class="grid-container">
-            <!-- Orders Summary -->
-            <div class="card">
-                <h2>Orders Summary</h2>
-                <div class="summary">
-                    <div class="summary-item">
-                        <span>Total Orders</span>
-                        <span>150</span>
+            <!-- Main Content -->
+            <main class="main-content">
+                {% if show_shop %}
+                <h1>Your Shop</h1>
+                <p>This is your shop page.</p>
+                <div class="your-products">
+                    <h1>Your Products</h1>
+                    <ul style="display: flex; flex-wrap: wrap; flex-direction: row; justify-content: left; cursor: pointer;">
+                        {% for product in products %}
+                        <li style="margin: 20px; display: flex; flex-direction: column; align-items: center;">
+                            <img src="{{ product.image }}" alt="Product Image" style="width: 100px; height: 100px;">
+                            <h3>{{ product.name }}</h3>
+                            <p>Price: {{ product.price }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <!-- {{ products }} -->
+                </div>
+                {% elif show_profile %}
+                <h1>Profile Information</h1>
+                <div>
+                    <p>Username: {{ session['username'] }}</p>
+                    <p>Phone Number: {{ session['phone_number'] }}</p>
+                    <p>Email Address: {{ session['email'] }}</p>
+                </div>
+                <form action="{{ url_for('edit_profile') }}" method="post">
+                    <h2>Edit Profile</h2>
+                    <div>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" value="{{ session['username'] }}">
                     </div>
-                    <div class="summary-item">
-                        <span>Pending Orders</span>
-                        <span>20</span>
+                    <div>
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" value="{{ session['email'] }}">
                     </div>
-                    <div class="summary-item">
-                        <span>Completed Orders</span>
-                        <span>120</span>
+                    <div>
+                        <label for="phone_number">Phone Number:</label>
+                        <input type="text" id="phone_number" name="phone_number" value="{{ session['phone_number'] }}">
                     </div>
-                    <div class="summary-item">
-                        <span>Cancelled Orders</span>
-                        <span>10</span>
+                    <button type="submit">Save Changes</button>
+                </form>
+                {% elif add_product %}
+                <h1>Add Product</h1>
+
+                <form action="{{ url_for('add_product') }}" method="post" enctype="multipart/form-data">
+                    <label for="product_name">Product Name:</label>
+                    <input type="text" id="product_name" name="product_name"><br><br>
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price"><br><br>
+                    <label for="category">Category:</label>
+                    <select id="category" name="category">
+                        <option value="Electronics">Electronics</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Home Appliances">Home Appliances</option>
+                        <option value="Books">Books</option>
+                    </select><br><br>
+                    <label for="image">Image:</label>
+                    <input type="file" id="image" name="image"><br><br>
+                    <button type="submit">Add Product</button>
+                </form>
+                {% elif show_analytics %}
+                <h1>Your Analytics</h1>
+
+                <section class="mb-8" style="width: 60%; margin: 0 auto;">
+                    <h2 class="text-xl font-semibold mb-4">Sales Overview</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <canvas id="salesOverviewChart"></canvas>
+                    </div>
+                </section>
+                <section class="mb-8" style="width: 60%; margin: 0 auto;">
+                    <h2 class="text-xl font-semibold mb-4">Revenue Comparison</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <canvas id="revenueComparisonChart"></canvas>
+                    </div>
+                </section>
+                <section class="mb-8" style="width: 60%; margin: 0 auto;">
+                    <h2 class="text-xl font-semibold mb-4">Customer Demographics</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <canvas id="customerDemographicsChart"></canvas>
+                    </div>
+                </section>
+                <section class="mb-8" style="width: 60%; margin: 0 auto;">
+                    <h2 class="text-xl font-semibold mb-4">Traffic Sources</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <canvas id="trafficSourcesChart"></canvas>
+                    </div>
+                </section>
+                <section class="mb-8" style="width: 60%; margin: 0 auto;">
+                    <h2 class="text-xl font-semibold mb-4">Top Products</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <canvas id="topProductsChart"></canvas>
+                    </div>
+                </section>
+
+                {% else %}
+                <!-- ... (rest of the dashboard content remains the same) -->
+                <div class="grid-container">
+                    <!-- Orders Summary -->
+                    <div class="card">
+                        <h2>Orders Summary</h2>
+                        <div class="summary">
+                            <div class="summary-item">
+                                <span>Total Orders</span>
+                                <span>150</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Pending Orders</span>
+                                <span>20</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Completed Orders</span>
+                                <span>120</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Cancelled Orders</span>
+                                <span>10</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Recent Orders -->
+                    <div class="card recent-orders">
+                        <h2>Recent Orders</h2>
+                        <div class="order-list">
+                            <div class="order-item">
+                                <div>
+                                    <h3>Order #12345</h3>
+                                    <p>Placed on: 2023-10-01</p>
+                                </div>
+                                <span>₹500</span>
+                            </div>
+                            <div class="order-item">
+                                <div>
+                                    <h3>Order #12346</h3>
+                                    <p>Placed on: 2023-10-02</p>
+                                </div>
+                                <span>₹1500</span>
+                            </div>
+                            <div class="order-item">
+                                <div>
+                                    <h3>Order #12347</h3>
+                                    <p>Placed on: 2023-10-03</p>
+                                </div>
+                                <span>₹2500</span>
+                            </div>
+                            <div class="order-item">
+                                <div>
+                                    <h3>Order #12348</h3>
+                                    <p>Placed on: 2023-10-04</p>
+                                </div>
+                                <span>₹3500</span>
+                            </div>
+                            <div class="order-item">
+                                <div>
+                                    <h3>Order #12349</h3>
+                                    <p>Placed on: 2023-10-05</p>
+                                </div>
+                                <span>₹4500</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Navigation Tiles -->
+                    <div class="card nav-tiles">
+                        <h2>Quick Navigation</h2>
+                        <div class="tiles">
+                            <a href="#">
+                                <i class="fas fa-user-circle"></i>
+                                <h3>Your Profile</h3>
+                            </a>
+                            <a href="#">
+                                <i class="fas fa-box"></i>
+                                <h3>Your Orders</h3>
+                            </a>
+                            <a href="#">
+                                <i class="fas fa-cog"></i>
+                                <h3>Settings</h3>
+                            </a>
+                            <a href="#">
+                                <i class="fas fa-store"></i>
+                                <h3>Add Shop</h3>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Recent Orders -->
-            <div class="card recent-orders">
-                <h2>Recent Orders</h2>
-                <div class="order-list">
-                    <div class="order-item">
-                        <div>
-                            <h3>Order #12345</h3>
-                            <p>Placed on: 2023-10-01</p>
-                        </div>
-                        <span>₹500</span>
-                    </div>
-                    <div class="order-item">
-                        <div>
-                            <h3>Order #12346</h3>
-                            <p>Placed on: 2023-10-02</p>
-                        </div>
-                        <span>₹1500</span>
-                    </div>
-                    <div class="order-item">
-                        <div>
-                            <h3>Order #12347</h3>
-                            <p>Placed on: 2023-10-03</p>
-                        </div>
-                        <span>₹2500</span>
-                    </div>
-                    <div class="order-item">
-                        <div>
-                            <h3>Order #12348</h3>
-                            <p>Placed on: 2023-10-04</p>
-                        </div>
-                        <span>₹3500</span>
-                    </div>
-                    <div class="order-item">
-                        <div>
-                            <h3>Order #12349</h3>
-                            <p>Placed on: 2023-10-05</p>
-                        </div>
-                        <span>₹4500</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Navigation Tiles -->
-            <div class="card nav-tiles">
-                <h2>Quick Navigation</h2>
-                <div class="tiles">
-                    <a href="#">
-                        <i class="fas fa-user-circle"></i>
-                        <h3>Your Profile</h3>
-                    </a>
-                    <a href="#">
-                        <i class="fas fa-box"></i>
-                        <h3>Your Orders</h3>
-                    </a>
-                    <a href="#">
-                        <i class="fas fa-cog"></i>
-                        <h3>Settings</h3>
-                    </a>
-                    <a href="#">
-                        <i class="fas fa-store"></i>
-                        <h3>Add Shop</h3>
-                    </a>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-</main>
+                {% endif %}
+            </main>
         </main>
         <!-- Footer -->
         <footer class="footer">
             <img src="https://ondc.org/assets/theme/images/ecom/how-will-change-mech.svg?v=399af293f9"
-                alt="Footer Image" style="width: 60%; margin-bottom: 1rem; background-color: #f7fafc;">
+                alt="Footer Image" style="width: 60%; margin-bottom: 1rem; background-color: #f7fafc; margin-left: 20%; margin-right: 20%;">
             <div class="footer-text">© 2023 ShopAffordable. All rights reserved.</div>
         </footer>
     </div>
+
+    <script>
+        // Sales Overview Chart
+        const salesOverviewCtx = document.getElementById('salesOverviewChart').getContext('2d');
+        const salesOverviewChart = new Chart(salesOverviewCtx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [1200, 1900, 3000, 5000, 2300, 3200, 4100, 2900, 3300, 4500, 3800, 5200],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Revenue Comparison Chart
+        const revenueComparisonCtx = document.getElementById('revenueComparisonChart').getContext('2d');
+        const revenueComparisonChart = new Chart(revenueComparisonCtx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [
+                    {
+                        label: 'Product A',
+                        data: [3000, 4000, 3200, 4500, 5000, 6000, 7000, 8000, 7500, 9000, 8500, 9500],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        fill: false
+                    },
+                    {
+                        label: 'Product B',
+                        data: [2000, 3000, 2500, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Customer Demographics Chart
+        const customerDemographicsCtx = document.getElementById('customerDemographicsChart').getContext('2d');
+        const customerDemographicsChart = new Chart(customerDemographicsCtx, {
+            type: 'pie',
+            data: {
+                labels: ['18-24', '25-34', '35-44', '45-54', '55-64', '65+'],
+                datasets: [{
+                    label: 'Age Groups',
+                    data: [15, 25, 20, 20, 10, 10],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Traffic Sources Chart
+        const trafficSourcesCtx = document.getElementById('trafficSourcesChart').getContext('2d');
+        const trafficSourcesChart = new Chart(trafficSourcesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Direct', 'Referral', 'Social Media', 'Organic Search', 'Email'],
+                datasets: [{
+                    label: 'Traffic Sources',
+                    data: [30, 20, 25, 15, 10],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Top Products Chart
+        const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+        const topProductsChart = new Chart(topProductsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [5000, 4000, 3000, 2000, 1000],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
 </body>
+
+
+
+
 
 </html>
