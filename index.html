@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- =======================================================================
+       ShopAffordable – One-Page Landing (HTML + CSS + JS inlined, >500 lines)
+       ======================================================================= -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopAffordable – Affordable Shopping for Everyone</title>
+  <meta name="description" content="Login with Username 123 / Password 123 and discover thousands of budget-friendly products on ShopAffordable.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+
+  <!-- ==========  INLINE STYLES  ================================================= -->
+  <style>
+/* -------------------------------------------------------------------
+   Root variables
+------------------------------------------------------------------- */
+:root{
+  /* palette */
+  --bg: #FCFCF9;
+  --surface:#FFFFFF;
+  --text:#13343B;
+  --text-sub:#626C71;
+  --primary:#21808D;
+  --primary-dk:#1D7480;
+  --border:rgba(94,82,64,.2);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:0 4px 6px rgba(0,0,0,.1);
+  --shadow-lg:0 10px 15px rgba(0,0,0,.15);
+  /* type */
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto;
+  --fs-xs:.75rem;--fs-sm:.875rem;--fs-base:1rem;--fs-lg:1.125rem;
+  --fs-xl:1.5rem;--fs-2xl:2rem;--fs-3xl:2.5rem;--fs-4xl:3rem;
+  /* spacing */
+  --sp-xs:.25rem;--sp-sm:.5rem;--sp-md:1rem;--sp-lg:1.5rem;
+  --sp-xl:2rem;--sp-2xl:3rem;--sp-3xl:4rem;--sp-4xl:5rem;
+  /* radius */
+  --rad-sm:4px;--rad-md:8px;--rad-lg:12px;--rad-xl:18px;
+  /* misc */
+  --tr-fast:.15s;--tr-base:.25s;
+}
+/* -------------------------------------------------------------------
+   Resets & base
+------------------------------------------------------------------- */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  font-size:var(--fs-base);
+  color:var(--text);
+  background:var(--bg);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+ul{list-style:none}
+a{text-decoration:none;color:inherit}
+button{font:inherit;cursor:pointer;border:none;background:none}
+
+/* Container helper ------------------------------------------------ */
+.container{max-width:1140px;margin:auto;padding:0 var(--sp-md)}
+@media(min-width:768px){.container{padding:0 var(--sp-xl)}}
+
+/* -------------------------------------------------------------------
+   Header & Nav
+------------------------------------------------------------------- */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(252,252,249,.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+  transition:transform var(--tr-base);
+}
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:var(--sp-md) 0;
+}
+.nav__brand{display:flex;align-items:center;gap:var(--sp-sm)}
+.nav__brand span{font-weight:700;font-size:var(--fs-lg)}
+.nav__logo{font-size:var(--fs-2xl)}
+.nav__menu{display:flex;gap:var(--sp-lg)}
+.nav__link{position:relative;padding:2px 4px;font-weight:500}
+.nav__link::after{
+  content:"";position:absolute;bottom:-2px;left:0;height:2px;width:0;
+  background:var(--primary);transition:width var(--tr-fast) linear;
+}
+.nav__link:hover::after{width:100%}
+.nav__cta{
+  background:var(--primary);color:#fff;padding:.5rem 1rem;
+  border-radius:var(--rad-sm);transition:background var(--tr-fast);
+}
+.nav__cta:hover{background:var(--primary-dk)}
+/* burger */
+.burger{display:none;flex-direction:column;gap:4px;cursor:pointer}
+.burger span{width:24px;height:2px;background:var(--text);transition:all .3s}
+@media(max-width:768px){
+  .burger{display:flex}
+  .nav__menu{
+    position:fixed;top:60px;left:0;right:0;
+    flex-direction:column;align-items:center;
+    background:var(--surface);gap:var(--sp-lg);
+    padding:var(--sp-xl) 0;
+    transform:translateY(-120%);transition:transform var(--tr-base);
+  }
+  .nav__menu.open{transform:translateY(0)}
+}
+/* -------------------------------------------------------------------
+   Hero
+------------------------------------------------------------------- */
+.hero{
+  display:flex;align-items:center;min-height:100vh;
+  background:linear-gradient(135deg,var(--bg) 0%,rgba(33,128,141,.05) 100%);
+  padding-top:80px;
+}
+.hero__grid{
+  display:grid;gap:var(--sp-2xl);align-items:center;
+}
+@media(min-width:768px){.hero__grid{grid-template-columns:1fr 1fr}}
+.hero__title{
+  font-size:var(--fs-4xl);font-weight:800;line-height:1.2;
+  margin-bottom:var(--sp-lg);
+}
+.hero__title span{color:var(--primary)}
+.hero__subtitle{color:var(--text-sub);font-size:var(--fs-lg);margin-bottom:var(--sp-xl)}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.75rem 1.5rem;border-radius:var(--rad-md);
+  background:var(--primary);color:#fff;font-weight:600;
+  transition:background var(--tr-fast),transform .15s;
+}
+.btn:hover{background:var(--primary-dk);transform:translateY(-2px)}
+.btn.outline{
+  background:none;color:var(--primary);border:2px solid var(--primary);
+}
+.btn.outline:hover{background:var(--primary);color:#fff}
+/* hero card */
+.card{
+  background:var(--surface);padding:var(--sp-lg);
+  border:1px solid var(--border);border-radius:var(--rad-lg);
+  box-shadow:var(--shadow-md);max-width:400px;margin:auto;
+}
+.card h3{margin-bottom:var(--sp-sm)}
+/* -------------------------------------------------------------------
+   Sections (generic)
+------------------------------------------------------------------- */
+.section{padding:var(--sp-4xl) 0}
+.section__title{
+  text-align:center;font-size:var(--fs-3xl);font-weight:800;
+  margin-bottom:var(--sp-md);
+}
+.section__subtitle{
+  text-align:center;color:var(--text-sub);max-width:600px;
+  margin:0 auto var(--sp-3xl);
+}
+/* -------------------------------------------------------------------
+   Credentials
+------------------------------------------------------------------- */
+.cred-grid{display:grid;gap:var(--sp-2xl)}
+@media(min-width:768px){.cred-grid{grid-template-columns:2fr 1fr}}
+.cred-card{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rad-lg);padding:var(--sp-xl);box-shadow:var(--shadow-sm)}
+.cred-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:var(--sp-md);border:1px solid var(--border);
+  border-radius:var(--rad-sm);margin-bottom:var(--sp-md);
+}
+.cred-item span{font-family:monospace;font-size:var(--fs-lg);color:var(--primary)}
+.copy-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border:1px solid var(--border);
+  border-radius:var(--rad-sm);color:var(--text-sub);
+  transition:background var(--tr-fast),color var(--tr-fast);
+}
+.copy-btn:hover{background:var(--primary);color:#fff}
+.note{color:var(--text-sub);font-size:var(--fs-sm);margin-top:.5rem}
+/* -------------------------------------------------------------------
+   Features
+------------------------------------------------------------------- */
+.features-grid{
+  display:grid;gap:var(--sp-xl);
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+}
+.feature{
+  background:var(--surface);border:1px solid var(--border);
+  padding:var(--sp-xl);border-radius:var(--rad-md);
+  text-align:center;box-shadow:var(--shadow-sm);
+  transition:transform .2s,box-shadow .2s;
+}
+.feature:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.feature-icon{font-size:var(--fs-2xl);margin-bottom:var(--sp-md)}
+/* -------------------------------------------------------------------
+   About
+------------------------------------------------------------------- */
+.about-grid{display:grid;gap:var(--sp-2xl)}
+@media(min-width:768px){.about-grid{grid-template-columns:1fr 1fr}}
+.stats{
+  display:grid;gap:var(--sp-lg);grid-template-columns:repeat(3,1fr);
+  margin-top:var(--sp-xl);
+}
+.stat{text-align:center}
+.stat-num{font-size:var(--fs-2xl);font-weight:700;color:var(--primary)}
+/* -------------------------------------------------------------------
+   CTA banner
+------------------------------------------------------------------- */
+.cta{
+  background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dk) 100%);
+  color:#fff;text-align:center;padding:var(--sp-3xl) var(--sp-md);
+}
+.cta h2{font-size:var(--fs-3xl);margin-bottom:var(--sp-md)}
+.cta p{font-size:var(--fs-lg);margin-bottom:var(--sp-lg);opacity:.9}
+/* -------------------------------------------------------------------
+   Footer
+------------------------------------------------------------------- */
+.footer{
+  background:var(--text);color:var(--bg);padding:var(--sp-3xl) 0 var(--sp-xl);
+}
+.footer-grid{display:grid;gap:var(--sp-xl)}
+@media(min-width:768px){.footer-grid{grid-template-columns:1fr 1fr}}
+.footer a{color:var(--bg);opacity:.8;transition:opacity var(--tr-fast)}
+.footer a:hover{opacity:1}
+.footer small{display:block;text-align:center;opacity:.6;margin-top:var(--sp-lg)}
+/* -------------------------------------------------------------------
+   Animations
+------------------------------------------------------------------- */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(30px)}
+.reveal.show{animation:fadeUp .8s ease-out forwards}
+/* toast */
+.toast{
+  position:fixed;top:20px;right:20px;z-index:110;
+  background:var(--primary);color:#fff;
+  padding:.75rem 1.25rem;border-radius:var(--rad-md);
+  box-shadow:var(--shadow-lg);transform:translateX(120%);
+  transition:transform .4s ease,opacity .4s ease;opacity:0;
+}
+.toast.show{transform:translateX(0);opacity:1}
+/* skip link */
+.skip-link{
+  position:fixed;left:8px;top:-40px;z-index:120;
+  background:var(--primary);color:#fff;padding:.5rem 1rem;
+  border-radius:var(--rad-sm);transition:top .3s;
+}
+.skip-link:focus{top:8px}
+/* burger animation */
+.burger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- ======================  HEADER  ====================== -->
+  <header class="header">
+    <nav class="nav container">
+      <div class="nav__brand"><span class="nav__logo">🛒</span><span>ShopAffordable</span></div>
+      <div class="burger" id="burger">
+        <span></span><span></span><span></span>
+      </div>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a class="nav__link" href="#home">Home</a></li>
+        <li><a class="nav__link" href="#credentials">Login</a></li>
+        <li><a class="nav__link" href="#features">Features</a></li>
+        <li><a class="nav__link" href="#about">About</a></li>
+        <li><a class="nav__link nav__cta" href="https://shopaffordable.pythonanywhere.com/" target="_blank">Get Started</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ======================  HERO  ====================== -->
+  <section class="hero" id="home">
+    <div class="container hero__grid">
+      <div>
+        <h1 class="hero__title reveal">Discover <span>Affordable</span> Shopping</h1>
+        <p class="hero__subtitle reveal">Quality products that don't break the bank. Join thousands of happy customers today.</p>
+        <div class="reveal" style="display:flex;gap:1rem;flex-wrap:wrap">
+          <a href="#credentials" class="btn">Login Details</a>
+          <a href="https://shopaffordable.pythonanywhere.com/" target="_blank" class="btn outline">Visit Store</a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="card">
+          <h3>Start Shopping Now</h3>
+          <p>Thousands of curated items await you. Click below to dive in!</p>
+          <a href="https://shopaffordable.pythonanywhere.com/" target="_blank" class="btn" style="margin-top:1rem">ShopAffordable →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================  CREDENTIALS  ====================== -->
+  <main id="main">
+  <section class="section" id="credentials">
+    <div class="container">
+      <h2 class="section__title reveal">Login Credentials</h2>
+      <p class="section__subtitle reveal">Use these to access your ShopAffordable account. This is to ensure efficient use of limited searches available with used API</p>
+
+      <div class="cred-grid">
+        <div class="cred-card reveal">
+          <div class="cred-item">
+            <label>Username:</label>
+            <span id="username">123</span>
+            <button class="copy-btn" data-copy="username" aria-label="Copy username">📋</button>
+          </div>
+          <div class="cred-item">
+            <label>Password:</label>
+            <span id="password">123</span>
+            <button class="copy-btn" data-copy="password" aria-label="Copy password">📋</button>
+          </div>
+          <a href="https://shopaffordable.pythonanywhere.com/" target="_blank" class="btn" style="width:100%;margin-top:var(--sp-lg)">Access ShopAffordable</a>
+          <p class="note">Tip: Click the clipboard icon to copy.</p>
+        </div>
+
+        <div class="reveal">
+          <h3>Quick Steps:</h3>
+          <ol style="margin-top:.75rem;line-height:1.6;color:var(--text-sub)">
+            <li>Copy the username and password.</li>
+            <li>Click “Access ShopAffordable”.</li>
+            <li>Paste credentials on the login screen.</li>
+            <li>Enjoy unbeatable deals!</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================  FEATURES  ====================== -->
+  <section class="section" id="features">
+    <div class="container">
+      <h2 class="section__title reveal">Why Choose Us?</h2>
+      <p class="section__subtitle reveal">Key benefits that make ShopAffordable the smart choice.</p>
+
+      <div class="features-grid">
+        <div class="feature reveal"><div class="feature-icon">💰</div><h4>Low Prices</h4><p>Great deals you can’t find elsewhere.</p></div>
+        <div class="feature reveal"><div class="feature-icon">⚡</div><h4>Fast Checkout</h4><p>Smooth, secure payment in seconds.</p></div>
+        <div class="feature reveal"><div class="feature-icon">🔒</div><h4>Secure</h4><p>Your data is safely encrypted end-to-end.</p></div>
+        <div class="feature reveal"><div class="feature-icon">📦</div><h4>Trusted Delivery</h4><p>Doorstep delivery, always on time.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================  ABOUT  ====================== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="reveal">
+          <h2 class="section__title" style="text-align:left">About ShopAffordable</h2>
+          <p style="color:var(--text-sub);margin-bottom:var(--sp-md)">We believe everyone deserves quality products without paying a premium. Our mission is to make affordability the norm, not the exception.</p>
+          <p style="color:var(--text-sub)">Since launching, we’ve empowered shoppers worldwide to save more while getting more.</p>
+          <div class="stats">
+            <div class="stat reveal"><div class="stat-num">1 000+</div><div>Products</div></div>
+            <div class="stat reveal"><div class="stat-num">50 K+</div><div>Happy Customers</div></div>
+            <div class="stat reveal"><div class="stat-num">24/7</div><div>Support</div></div>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="card">
+            <h3>Ready to save?</h3>
+            <p>Join thousands enjoying our deals. Start shopping today!</p>
+            <a href="https://shopaffordable.pythonanywhere.com/" target="_blank" class="btn" style="margin-top:var(--sp-lg)">Get Started Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ======================  CTA  ====================== -->
+  <section class="cta">
+    <div class="container">
+      <h2 class="reveal">Start Shopping Smart</h2>
+      <p class="reveal">Use the credentials above and experience affordable shopping at its best.</p>
+      <a href="https://shopaffordable.pythonanywhere.com/" target="_blank" class="btn reveal">Visit ShopAffordable →</a>
+    </div>
+  </section>
+
+  <!-- ======================  FOOTER  ====================== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3 style="display:flex;align-items:center;gap:.5rem">🛒 ShopAffordable</h3>
+        <p style="opacity:.8;margin-top:.5rem;max-width:320px">Your destination for pocket-friendly products.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul style="margin-top:.5rem;line-height:1.8">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#credentials">Login</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="https://shopaffordable.pythonanywhere.com/" target="_blank">Main Site</a></li>
+        </ul>
+      </div>
+    </div>
+    <small>© 2025 ShopAffordable. All rights reserved.</small>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"><span id="toast-msg">Copied!</span></div>
+
+  <!-- ==========  INLINE SCRIPTS  ============================================ -->
+  <script>
+/* -------------------------------------------------------------------
+   Helpers
+------------------------------------------------------------------- */
+const qs = sel => document.querySelector(sel);
+const qsa = sel => document.querySelectorAll(sel);
+
+function toast(message){
+  const t = qs('#toast');qs('#toast-msg').textContent = message;
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);
+}
+/* -------------------------------------------------------------------
+   Copy-to-clipboard
+------------------------------------------------------------------- */
+qsa('.copy-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id = btn.dataset.copy;
+    const text = qs('#'+id).textContent;
+    navigator.clipboard.writeText(text).then(()=>toast('Copied to clipboard!'));
+  });
+});
+
+/* -------------------------------------------------------------------
+   Mobile menu toggle
+------------------------------------------------------------------- */
+const burger = qs('#burger');
+const navMenu = qs('#nav-menu');
+burger.addEventListener('click',()=>{
+  burger.classList.toggle('open');navMenu.classList.toggle('open');
+});
+qsa('.nav__link').forEach(link=>{
+  link.addEventListener('click',()=>{
+    navMenu.classList.remove('open');burger.classList.remove('open');
+  });
+});
+/* -------------------------------------------------------------------
+   Scroll-reveal animations
+------------------------------------------------------------------- */
+const revealEls = qsa('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+      io.unobserve(entry.target);
+    }
+  });
+},{threshold:.15});
+revealEls.forEach(el=>io.observe(el));
+
+/* -------------------------------------------------------------------
+   Parallax effect for hero
+------------------------------------------------------------------- */
+const hero = qs('.hero');
+window.addEventListener('scroll',()=>{
+  const offset = window.pageYOffset* -0.3;
+  hero.style.transform = `translateY(${offset}px)`;
+});
+
+/* -------------------------------------------------------------------
+   Accessibility keyboard nav (Burger)
+------------------------------------------------------------------- */
+burger.addEventListener('keydown',e=>{
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();burger.click();}
+});
+/* -------------------------------------------------------------------
+   Smooth anchor scroll
+------------------------------------------------------------------- */
+qsa('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href');
+    if(id.length>1){
+      e.preventDefault();
+      const target=qs(id);
+      if(target){
+        const top = target.getBoundingClientRect().top + window.pageYOffset - 70;
+        window.scrollTo({top,behavior:'smooth'});
+      }
+    }
+  });
+});
+  </script>
+</body>
+</html>
